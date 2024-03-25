@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Applied Jobs</title>
+</head>
+<body>
+    <h1>Applied Jobs</h1>
+    {% if job_applications %}
+        <ul>
+            {% for application in job_applications %}
+                <li>
+                    <p><strong>Job Title:</strong> {{ application.job.title }}</p>
+                    <p><strong>Application Date:</strong> {{ application.applied_at }}</p>
+                    <p><strong>Status:</strong> {{ application.status }}</p>
+                    <form action="{% url 'delete_application' application.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Delete Application</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No applications found.</p>
+    {% endif %}
+</body>
+</html>

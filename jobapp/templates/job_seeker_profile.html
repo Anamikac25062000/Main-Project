@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Seeker Profile</title>
+</head>
+<body>
+    <div>
+        <h1>Welcome, {{ user_profile.full_name }}!</h1>
+        <div>
+            <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
+            <!-- Form to upload resume -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="resume">Upload Resume:</label>
+                <input type="file" name="resume" id="resume">
+                <input type="submit" value="Upload Resume">
+            </form>
+            <p><strong>Resume:</strong> 
+                {% if user_profile.resume %}
+                    <a href="{{ user_profile.resume.url }}">{{ user_profile.resume.name }}</a>
+                {% else %}
+                    No resume available
+                {% endif %}
+            </p>
+            <!-- Button to update profile -->
+            <button onclick="window.location.href='{% url 'update_job_seeker_profile' %}'">Update Profile</button>
+
+            <!-- Button to view job listings -->
+            <button onclick="window.location.href='{% url 'job_listings' %}'">View Jobs</button>
+
+            <!-- Button to apply to jobs -->
+            <button onclick="window.location.href='{% url 'apply_job'  job_id=job_id %}'">View Applied Jobs</button>
+
+            <!-- Button to view application status -->
+            <button onclick="window.location.href='{% url 'application_status' %}'">View Application Status</button>
+        </div>
+    </div>
+</body>
+</html>

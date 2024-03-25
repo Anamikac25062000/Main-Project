@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Applications</title>
+</head>
+<body>
+    <h1>Job Applications</h1>
+    <ul>
+        {% for application in job_applications %}
+        <li>
+            <h2>Applicant: {{ application.applicant.username }}</h2>
+            <p>Job Title: {{ application.job.title }}</p>
+            <p>Application Date: {{ application.applied_at }}</p>
+            <!-- Additional application details -->
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

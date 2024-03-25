@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search</title>
+</head>
+<body>
+    <h1>Job Search</h1>
+    <form method="get" action="{% url 'search_jobs' %}">
+        <input type="text" name="keyword" placeholder="Keyword">
+        <input type="text" name="location" placeholder="Location">
+        <input type="text" name="industry" placeholder="Industry">
+        <input type="submit" value="Search">
+    </form>
+</body>
+</html>

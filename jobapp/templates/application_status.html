@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Status</title>
+</head>
+<body>
+    <h2>Application Status</h2>
+    <ul>
+        {% for application in job_applications %}
+            <li>{{ application.job.title }} - {{ application.get_status_display }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile</title>
+</head>
+<body>
+    <div>
+        <p>Welcome, {{ user_profile.full_name }}!</p>
+        <div>
+
+            <!-- Button to manage users -->
+            <button onclick="window.location.href='{% url 'manage_users' %}'">Manage Users</button>
+
+            <!-- Button to view jobs -->
+            <button onclick="window.location.href='{% url 'view_jobs' %}'">View Jobs</button>
+
+            <!-- Button to view applications -->
+            <button onclick="window.location.href='{% url 'view_applications' %}'">View Applications</button>
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Upload Resume">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
