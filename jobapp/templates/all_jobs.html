@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Jobs</title>
+</head>
+<body>
+    <h1>All Jobs</h1>
+    <ul>
+        {% for job in job_listings %}
+            <li>{{ job.title }} - {{ job.employer }}</li>
+            <!-- Add more job details as needed -->
+            <form action="{% url 'apply_for_job' job.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Apply</button>
+            </form>
+        {% endfor %}
+    </ul>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

@@ -28,11 +28,12 @@
             <button onclick="window.location.href='{% url 'update_job_seeker_profile' %}'">Update Profile</button>
 
             <!-- Button to view job listings -->
-            <button onclick="window.location.href='{% url 'job_listings' %}'">View Jobs</button>
+            <button onclick="window.location.href='{% url 'all_jobs' %}'">View Jobs</button>
 
-            <!-- Button to apply to jobs -->
-            <button onclick="window.location.href='{% url 'apply_job'  job_id=job_id %}'">View Applied Jobs</button>
-
+        {% for job_id in applied_job_ids %}
+            <button onclick="window.location.href='{% url 'applied_job' job_id=job_id %}'">View Applied Job</button>
+        {% endfor %}
+        
             <!-- Button to view application status -->
             <button onclick="window.location.href='{% url 'application_status' %}'">View Application Status</button>
         </div>

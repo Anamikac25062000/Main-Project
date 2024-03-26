@@ -7,22 +7,17 @@
 </head>
 <body>
     <div>
-        <p>Welcome, {{ user_profile.full_name }}!</p>
+        <h1>Welcome, {{ user_profile.full_name }}!</h1>
+        <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
         <div>
-            <!-- Button to manage users -->
-            <button onclick="window.location.href='{% url 'update_employer_profile'' %}'">Update Profile</button>
+            <!-- Button to update employer profile -->
+            <button onclick="window.location.href='{% url 'update_employer_profile' %}'">Update Profile</button>
 
-            <!-- Button to view jobs -->
+            <!-- Button to view job applications -->
+            <button onclick="window.location.href='{% url 'view_job_seeker_applications' %}'">View Applications</button>
+
+            <!-- Button to post new jobs -->
             <button onclick="window.location.href='{% url 'add_jobs' %}'">Post Jobs</button>
-
-            <!-- Button to view applications -->
-            <button onclick="window.location.href='{% url 'view_all_applications' %}'">View Applications</button>
-            
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Upload Resume">
-            </form>
         </div>
     </div>
 </body>

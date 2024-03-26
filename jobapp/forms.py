@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserProfile, JobListing, JobApplication
+from .models import UserProfile, JobListing, JobApplication, AddJob
 
 class UserRegistrationForm(forms.ModelForm):
     full_name = forms.CharField(max_length=30, required=True)
@@ -60,7 +60,6 @@ class JobListingForm(forms.ModelForm):
             'other_information',
         ]
 
-
 class JobApplicationForm(forms.ModelForm):
     resume = forms.FileField()
     cover_letter = forms.CharField(widget=forms.Textarea)
@@ -69,8 +68,25 @@ class JobApplicationForm(forms.ModelForm):
         model = JobApplication
         fields = ['resume', 'cover_letter']
 
-
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['full_name', 'resume', 'address', 'qualifications', 'other_fields_if_needed']
+        fields = ['user', 'full_name', 'resume', 'other_information']
+
+class AddJobForm(forms.ModelForm):
+    class Meta:
+        model = JobListing
+        fields = [
+            'title',
+            'description',
+            'required_qualifications',
+            'desired_qualifications',
+            'responsibilities',
+            'application_deadline',
+            'salary_range',
+            'location',
+            'employment_type',
+            'company_benefits',
+            'how_to_apply',
+            'other_information',
+        ]

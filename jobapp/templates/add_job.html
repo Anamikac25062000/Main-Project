@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply for Job</title>
+    <title>Add New Job</title>
 </head>
 <body>
-    <h1>Apply for Job</h1>
+    <h2>Add New Job</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Apply</button>
+        <button type="submit">Create Job</button>  <!-- Changed input type to button -->
     </form>
 </body>
 </html>

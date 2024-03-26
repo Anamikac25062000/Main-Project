@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     full_name = models.CharField(max_length=100)
     resume = models.FileField(upload_to='resumes/', null=True, blank=True)
     password = models.CharField(max_length=50, default=0)
-
+    other_information = models.CharField(max_length=255, blank=True)
     def __str__(self):
         return self.full_name
     
@@ -25,8 +25,10 @@ class JobListing(models.Model):
     employment_type = models.CharField(max_length=50)
     company_benefits = models.TextField()
     how_to_apply = models.TextField()
-    other_information = models.TextField()
-    
+    other_information = models.CharField(max_length=255, blank=True)
+    def __str__(self):
+        return self.title
+        
 class JobApplication(models.Model):
     job = models.ForeignKey(JobListing, on_delete=models.CASCADE)
     applicant = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -41,4 +43,19 @@ class JobApplication(models.Model):
         ('Hired', 'Hired'),
     )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    
+
+class AddJob(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    required_qualifications = models.TextField()
+    desired_qualifications = models.TextField()
+    responsibilities = models.TextField()
+    application_deadline = models.DateField()
+    salary_range = models.CharField(max_length=100)
+    location = models.CharField(max_length=255)
+    employment_type = models.CharField(max_length=50)
+    company_benefits = models.TextField()
+    how_to_apply = models.TextField()
+    other_information = models.CharField(max_length=255, blank=True)
     

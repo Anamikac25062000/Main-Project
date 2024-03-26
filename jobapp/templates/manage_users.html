@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+</head>
+<body>
+    <h1>Manage Users</h1>
+    <h2>Job Seekers</h2>
+    <ul>
+        {% for job_seeker in job_seekers %}
+        <li>{{ job_seeker.userprofile.full_name }}</li>
+        <!-- Display additional job seeker details if needed -->
+        {% endfor %}
+    </ul>
+    <h2>Employers</h2>
+    <ul>
+        {% for employer in employers %}
+        <li>{{ employer.userprofile.full_name }}</li>
+        <!-- Display additional employer details if needed -->
+        {% endfor %}
+    </ul>
+</body>
+</html>
