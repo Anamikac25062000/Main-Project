@@ -88,8 +88,7 @@ def all_jobs(request):
 
 @login_required
 def apply_for_job(request, job_id):
-    job = get_object_or_404(JobListing, id=job_id)
-    
+    job = get_object_or_404(JobListing, pk=job_id)
     if request.method == 'POST':
         form = JobApplicationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -97,11 +96,9 @@ def apply_for_job(request, job_id):
             application.job = job
             application.applicant = request.user
             application.save()
-            messages.success(request, 'Application submitted successfully!')
-            return redirect('all_jobs')
+            return redirect('all_jobs') 
     else:
         form = JobApplicationForm()
-    
     return render(request, 'apply_job.html', {'form': form, 'job': job})
 
 @login_required
@@ -229,7 +226,7 @@ def delete_job(request, job_id):
 
 def view_job_seeker_applications(request):
     # Retrieve all job applications
-    job_applications = JobApplication.objects.filter(applicant=request.user)
+    job_applications = JobApplication.objects.all()
     
     return render(request, 'view_applications.html', {'job_applications': job_applications})
 

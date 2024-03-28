@@ -11,7 +11,7 @@ class UserProfile(models.Model):
     password = models.CharField(max_length=50, default=0)
     other_information = models.CharField(max_length=255, blank=True)
     def __str__(self):
-        return self.full_name
+        return self.user.user_name
     
 class JobListing(models.Model):
     title = models.CharField(max_length=255)
