@@ -9,8 +9,11 @@
     <h1>All Jobs</h1>
     <ul>
         {% for job in job_listings %}
-            <li>{{ job.title }} - {{ job.employer }}</li>
-            <!-- Add more job details as needed -->
+            <li>{{ job.title }} - {{ job.description }}</li>
+            <li> - {{ job.salary_range }}</li>
+            <li> - {{ job.desired_qualifications }}</li>
+            <li> - {{ job.application_deadline }}</li>
+
             <form action="{% url 'apply_for_job' job.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit">Apply</button>

@@ -10,7 +10,7 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <label for="full_name">Full Name:</label>
+        {% comment %} <label for="full_name">Full Name:</label>
         <input type="text" name="full_name" id="full_name" value="{{ form.full_name.value }}"><br>
 
         <label for="address">Address:</label>
@@ -20,7 +20,7 @@
         <textarea name="qualifications" id="qualifications">{{ form.qualifications.value }}</textarea><br>
 
         <label for="resume">Upload New Resume:</label>
-        <input type="file" name="resume" id="resume"><br>
+        <input type="file" name="resume" id="resume"><br> {% endcomment %}
 
         <input type="submit" value="Update Profile">
     </form>

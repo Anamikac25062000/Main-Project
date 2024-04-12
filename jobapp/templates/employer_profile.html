@@ -6,9 +6,12 @@
     <title>Employer Profile</title>
 </head>
 <body>
-    <div>
+    
+        {% comment %} {% for f_obj in form %} {% endcomment %}
         <h1>Welcome, {{ user_profile.full_name }}!</h1>
         <p><strong>Email:</strong> {{ user_profile.user.email }}</p>
+        <p><strong>Company:</strong> {{ user_profile.company }}</p>
+        {% comment %} {% endfor %} {% endcomment %}
         <div>
             <!-- Button to update employer profile -->
             <button onclick="window.location.href='{% url 'update_employer_profile' %}'">Update Profile</button>
@@ -19,6 +22,6 @@
             <!-- Button to post new jobs -->
             <button onclick="window.location.href='{% url 'add_jobs' %}'">Post Jobs</button>
         </div>
-    </div>
+  
 </body>
 </html>

@@ -4,8 +4,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .forms import UserRegistrationForm, JobListingForm, JobApplicationForm, ResumeUploadForm, UserProfileForm, AddJobForm
-from .models import UserProfile, JobListing, JobApplication
+from .forms import UserRegistrationForm, JobApplicationForm, ResumeUploadForm, UserProfileForm, AddJobForm, EmployerProfileForm, JobListing
+from .models import UserProfile, JobListing, JobApplication, Notification
+from django.core.mail import send_mail
+from django.conf import settings
 
 def register(request):
     if request.method == 'POST':
@@ -71,7 +73,7 @@ def update_job_seeker_profile(request):
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Profile updated successfully!')
+            # messages.success(request, 'Profile updated successfully!')
             return redirect('profile')
         else:
             print(form.errors)
@@ -86,6 +88,32 @@ def all_jobs(request):
     
     return render(request, 'all_jobs.html', {'job_listings': job_listings})
 
+# @login_required
+# def apply_for_job(request, job_id):
+#     job = get_object_or_404(JobListing, pk=job_id)
+#     # applicant = get_object_or_404(JobApplication, pk=)
+#     if request.method == 'POST':
+#         form = JobApplicationForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             application = form.save(commit=False)
+#             application.job = job
+#             application.applicant = request.user
+#             application.created_by = job.created_by
+#             application.save()
+#             # if request.user.userprofile.is_employer==True:
+#             applicant_email = request.user.email
+#             employer_email = job.created_by.email
+#             print("Employer Email:", employer_email)
+#             print(applicant_email)
+#             # else:
+#                 # print('error')
+#             # notification_content = f"New application received for job: {job.title}"
+#             # create_notification(employer, notification_content)
+#             return redirect('all_jobs') 
+#     else:
+#         form = JobApplicationForm()
+#     return render(request, 'apply_job.html', {'form': form, 'job': job})
+    
 @login_required
 def apply_for_job(request, job_id):
     job = get_object_or_404(JobListing, pk=job_id)
@@ -95,8 +123,25 @@ def apply_for_job(request, job_id):
             application = form.save(commit=False)
             application.job = job
             application.applicant = request.user
+            
+            # Set the created_by field of the JobApplication to the creator of the JobListing
+            
             application.save()
-            return redirect('all_jobs') 
+            
+            # Get applicant's email
+            applicant_email = request.user.email
+            applicant_subject = f"Application for {job.title}"
+            applicant_message = f'You have successfull applied for the {job.title}.'
+            send_mail(applicant_subject, applicant_message, settings.EMAIL_HOST_USER, [applicant_email])
+            
+            employer_email = job.employer.email
+            employer_subject = f"Application for {job.title}"
+            employer_message = f'{request.user.username} applied for the {job.title}.'
+            send_mail(employer_subject, employer_message, settings.EMAIL_HOST_USER, [employer_email])
+
+
+            
+            return redirect('all_jobs')
     else:
         form = JobApplicationForm()
     return render(request, 'apply_job.html', {'form': form, 'job': job})
@@ -157,13 +202,14 @@ def employer_profile(request):
 def update_employer_profile(request):
     user_profile = request.user.userprofile
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        form = EmployerProfileForm(request.POST, instance=user_profile)
         if form.is_valid():
             form.save()
+            print(user_profile.company)
             messages.success(request, 'Profile updated successfully!')
             return redirect('profile')
     else:
-        form = UserProfileForm(instance=user_profile)
+        form = EmployerProfileForm(instance=user_profile)
     return render(request, 'update_employer_profile.html', {'form': form})
 
 # @login_required
@@ -191,7 +237,10 @@ def add_jobs(request):
     if request.method == 'POST':
         form = AddJobForm(request.POST)
         if form.is_valid():
-            form.save()
+            job = form.save(commit=False)
+            # Assign the current user to the employer field
+            job.employer = request.user
+            job.save()
             messages.success(request, 'Job created successfully!')
             return redirect('job_listing') 
     else:
@@ -206,13 +255,13 @@ def job_listing(request):
 def edit_job(request, job_id):
     job = get_object_or_404(JobListing, id=job_id, employer=request.user)
     if request.method == 'POST':
-        form = JobListingForm(request.POST, instance=job)
+        form = AddJobForm(request.POST, instance=job)
         if form.is_valid():
             form.save()
             messages.success(request, 'Job updated successfully!')
             return redirect('profile')
     else:
-        form = JobListingForm(instance=job)
+        form = AddJobForm(instance=job)
     return render(request, 'edit_job.html', {'form': form})
 
 @login_required
@@ -268,3 +317,5 @@ def delete_application(request, application_id):
         messages.success(request, 'Application deleted successfully!')
     return redirect('view_applied_jobs')
 
+def create_notification(recipient, content):
+    Notification.objects.create(recipient=recipient, content=content)

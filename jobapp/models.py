@@ -5,7 +5,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_job_seeker = models.BooleanField(default=False)
     is_employer = models.BooleanField(default=False)
-    company = models.CharField(max_length=100, blank=True)
+    company = models.CharField(max_length=100)
     full_name = models.CharField(max_length=100)
     resume = models.FileField(upload_to='resumes/', null=True, blank=True)
     password = models.CharField(max_length=50, default=0)
@@ -26,8 +26,11 @@ class JobListing(models.Model):
     company_benefits = models.TextField()
     how_to_apply = models.TextField()
     other_information = models.CharField(max_length=255, blank=True)
+    employer = models.ForeignKey(User, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.title
+        
         
 class JobApplication(models.Model):
     job = models.ForeignKey(JobListing, on_delete=models.CASCADE)
@@ -59,3 +62,8 @@ class AddJob(models.Model):
     how_to_apply = models.TextField()
     other_information = models.CharField(max_length=255, blank=True)
     
+class Notification(models.Model):
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)

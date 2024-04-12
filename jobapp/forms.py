@@ -42,23 +42,23 @@ class ResumeUploadForm(forms.ModelForm):
         model = UserProfile
         fields = ['resume']
 
-class JobListingForm(forms.ModelForm):
-    class Meta:
-        model = JobListing
-        fields = [
-            'title',
-            'description',
-            'required_qualifications',
-            'desired_qualifications',
-            'responsibilities',
-            'application_deadline',
-            'salary_range',
-            'location',
-            'employment_type',
-            'company_benefits',
-            'how_to_apply',
-            'other_information',
-        ]
+# class JobListingForm(forms.ModelForm):
+#     class Meta:
+#         model = JobListing
+#         fields = [
+#             'title',
+#             'description',
+#             'required_qualifications',
+#             'desired_qualifications',
+#             'responsibilities',
+#             'application_deadline',
+#             'salary_range',
+#             'location',
+#             'employment_type',
+#             'company_benefits',
+#             'how_to_apply',
+#             'other_information',
+#         ]
 
 class JobApplicationForm(forms.ModelForm):
     resume = forms.FileField()
@@ -72,6 +72,11 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['user', 'full_name', 'resume', 'other_information']
+
+class EmployerProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['user', 'full_name','company', 'other_information']
 
 class AddJobForm(forms.ModelForm):
     class Meta:
